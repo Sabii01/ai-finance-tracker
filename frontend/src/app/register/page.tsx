@@ -1,6 +1,3 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
-
-// frontend/src/app/register/page.tsx
 "use client";
 
 import { useAuth } from "@/hooks/useAuth";

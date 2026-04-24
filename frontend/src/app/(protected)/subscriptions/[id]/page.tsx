@@ -1,5 +1,3 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
-// frontend/src/app/(protected)/subscriptions/[id]/page.tsx
 "use client";
 
 import { useParams, useRouter } from "next/navigation";

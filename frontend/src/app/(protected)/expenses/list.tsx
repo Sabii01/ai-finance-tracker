@@ -16,19 +16,7 @@ type Props = {
 export default function ExpenseList({ filters }: Props) {
   const { data, isLoading } = useExpenses(filters);
   const { mutate: deleteExpense } = useDeleteExpense();
-  // const { data: subData = [] } = useSubscriptions();
-  // const { mutate: deleteSubscription } = useDeleteSubscription();
-  // const router = useRouter();
-  // const subs: Subscription[] = [];
-  // if (subData?.length !== 0 && data?.length !== 0) {
-  //   // collect subscriptions that match any expense by subscriptionId
-  //   for (let i = 0; i < subData.length; i++) {
-  //     const sub = subData[i];
-  //     if (data!.some((exp) => exp.subscriptionId === sub.id)) {
-  //       subs.push(sub);
-  //     }
-  //   }
-  // }
+
 
 const handleDelete = (id: string, description: string) => {
   // Check if expense is linked to a subscription

@@ -74,51 +74,6 @@ export default function AddSubscriptionPage() {
               />
             </div>
 
-            {/* Category Input 
-            <div className="space-y-2">
-              <label className="block text-sm font-semibold dark:text-gray-500">
-                Category *
-              </label>
-              <div className="relative">
-                <select
-                  className="w-full appearance-none px-4 py-3.5 bg-background border-2 border-border rounded-xl dark:text-gray-500 font-medium transition-all duration-200 hover:border-primary-400 dark:hover:border-primary-500 focus:border-primary-500 focus:ring-4 focus:ring-primary-500/10 outline-none cursor-pointer"
-                  value={form.category}
-                  required
-                  onChange={(e) =>
-                    setForm({ ...form, category: e.target.value })
-                  }
-                >
-                  <option value="">Select a category</option>
-                  <option value="Entertainment">🎬 Entertainment</option>
-                  <option value="Software">💻 Software & Tools</option>
-                  <option value="Music">🎵 Music & Audio</option>
-                  <option value="Streaming">📺 Video Streaming</option>
-                  <option value="Cloud Storage">☁️ Cloud Storage</option>
-                  <option value="News">📰 News & Magazines</option>
-                  <option value="Fitness">💪 Fitness & Health</option>
-                  <option value="Education">📚 Education</option>
-                  <option value="Gaming">🎮 Gaming</option>
-                  <option value="Other">📦 Other</option>
-                </select>
-                 Custom dropdown arrow 
-                <div className="absolute right-4 top-1/2 -translate-y-1/2 pointer-events-none">
-                  <svg
-                    className="w-5 h-5 dark:text-gray-400"
-                    fill="none"
-                    stroke="currentColor"
-                    viewBox="0 0 24 24"
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth={2}
-                      d="M19 9l-7 7-7-7"
-                    />
-                  </svg>
-                </div>
-              </div>
-            </div> */}
-
             {/* Amount Input */}
             <div className="space-y-2">
               <label className="block text-sm font-semibold dark:text-gray-500">
