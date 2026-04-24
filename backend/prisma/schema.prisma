@@ -1,0 +1,115 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client"
+  output   = "../src/generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id            String         @id @default(uuid())
+  email         String         @unique
+  password      String
+  name          String?
+  expenses      Expense[]
+  subscriptions Subscription[]
+  role          Role           @default(USER)
+  createdAt     DateTime       @default(now())
+  sessions      Session[]
+  auditLogs     AuditLog[]
+}
+
+enum Role {
+  USER
+  ADMIN
+}
+
+model Expense {
+  id          String        @id @default(uuid())
+  amount      Float
+  status      ExpenseStatus
+  category    String?       // Made optional - AI will categorize later
+  description String?
+  isAnomaly   Boolean?      @default(false)
+  date        DateTime      @default(now())
+
+  userId String
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  // Optional - links expense to subscription if auto-generated
+  subscriptionId String?
+  subscription   Subscription? @relation(fields: [subscriptionId], references: [id], onDelete: SetNull)
+
+  @@index([userId])
+  @@index([userId, category])
+}
+
+model Subscription {
+  id             String   @id @default(uuid())
+  subscriptionId String? // External ID if needed (optional)
+  
+  name           String
+  category       String?
+  status         Status
+  price          Float
+  paymentMethod  String?
+  isAnomaly      Boolean? @default(false)
+  billingCycle   String
+
+  // Uses DateTime for easier querying/filtering
+  nextBillingDate DateTime
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt // Added to match frontend
+  
+  userId   String
+  user     User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  expenses Expense[]
+
+  @@index([userId])
+  @@index([nextBillingDate])
+}
+
+model Session {
+  id          String   @id @default(uuid())
+  hashedToken String   @unique
+  userId      String
+  user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  expiresAt   DateTime
+  createdAt   DateTime @default(now())
+
+  @@index([userId])
+}
+
+// Changed to lowercase to match frontend exactly
+enum Status {
+  active
+  paused
+  cancelled // Changed from COMPLETED to cancelled
+}
+
+// Changed to lowercase to match frontend exactly
+enum ExpenseStatus {
+  completed
+  pending
+}
+
+model AuditLog {
+  id        String   @id @default(cuid())
+  userId    String
+  user      User     @relation(fields: [userId], references: [id])
+  action    String   // e.g., "USER_LOGIN", "ADD_SUBSCRIPTION", "DELETE_EXPENSE"
+  entity    String?  // e.g., "Subscription", "Expense"
+  entityId  String?  // The ID of the thing being changed
+  details   Json?    // Optional: store old/new values
+  ip        String?
+  createdAt DateTime @default(now())
+}
